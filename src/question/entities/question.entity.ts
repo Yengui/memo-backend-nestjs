@@ -10,8 +10,13 @@ export const Question = new mongoose.Schema(
   { timestamps: true },
 );
 
+Question.index({ pack: 1, question: 1 }, { unique: true });
+
 export interface QuestionInterface {
-  name: string;
-  user: string;
-  created: string;
+  pack: string;
+  question: string;
+  response: string;
+  suggestions: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }

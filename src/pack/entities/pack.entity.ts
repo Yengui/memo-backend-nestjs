@@ -13,5 +13,6 @@ Pack.index({ name: 1, user: 1 }, { unique: true });
 export interface PackInterface {
   name: string;
   user: string;
-  created: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

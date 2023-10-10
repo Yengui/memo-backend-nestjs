@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePackDto } from './dto/create-pack.dto';
 import { UpdatePackDto } from './dto/update-pack.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { PackInterface } from './entities/pack.entity';
 
 @Injectable()
 export class PackService {
-  create(createPackDto: CreatePackDto) {
-    return 'This action adds a new pack';
+  constructor(
+    @InjectModel('Pack') private readonly Pack: Model<PackInterface>,
+  ) {}
+
+  async create(createPackDto: CreatePackDto, user: string) {
+    const newPack = new this.Pack({ ...createPackDto, user });
+    const pack = await newPack.save();
+    return pack;
   }
 
-  findAll() {
-    return `This action returns all pack`;
+  async findAll() {
+    return await this.Pack.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pack`;
+  async findOne(id: string) {
+    return await this.Pack.findById(id);
   }
 
-  update(id: number, updatePackDto: UpdatePackDto) {
-    return `This action updates a #${id} pack`;
+  async update(id: string, updatePackDto: UpdatePackDto) {
+    return await this.Pack.findByIdAndUpdate(
+      id,
+      { ...updatePackDto },
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pack`;
+  async remove(id: string) {
+    return await this.Pack.findByIdAndDelete(id);
   }
 }

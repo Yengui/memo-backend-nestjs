@@ -7,6 +7,7 @@ export const User = new mongoose.Schema(
     first_name: { type: String, required: true },
     second_name: { type: String, required: true },
     password: { type: String, required: true },
+    isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true },
 );
@@ -17,4 +18,7 @@ export interface UserInterface {
   first_name: string;
   second_name: string;
   password: string;
+  isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
